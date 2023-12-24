@@ -5,8 +5,9 @@ class Solution:
         dont_care = set([])
         leng = len(fronts)
         for i in range(leng):
-            numbers[fronts[i]].add(i)
-        for i in range(leng):
+            if fronts[i] not in dont_care:
+                numbers[fronts[i]].add(i)
+        # for i in range(leng):
             if backs[i] in dont_care:
                 continue
             elif backs[i] in numbers:
