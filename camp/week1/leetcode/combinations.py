@@ -1,9 +1,14 @@
-from itertools import combinations
 class Solution:
     def combine(self, n: int, k: int) -> List[List[int]]:
-        lis = [i for i in range(1, n + 1)]
-        ans = combinations(lis, k)
-        final_ans = []
-        for i in ans:
-            final_ans.append(list(i))
-        return final_ans
+        ans = []
+        def helper(lis, cur):
+            if len(lis) == k:
+                temp = lis.copy()
+                ans.append(temp)
+                return
+            for i in range(cur + 1, n + 1):
+                temp = lis.copy()
+                temp.append(i)
+                helper(temp, i)
+        helper([], 0)
+        return ans
