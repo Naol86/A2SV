@@ -1,32 +1,32 @@
 class Solution:
     def solveNQueens(self, n: int) -> List[List[str]]:
+        board = [['.'] * n for _ in range(n)]
+        col = set()
+        pos_digo = set()
+        neg_digo = set()
         ans = []
-        col = []
-        nag_digo = [] # r - c
-        pos_digo = [] # r + c
-        board = [["." ]* n for i in range(n)]
-
-        def back_tracking(r):
-            if r == n:
-                temp = ["".join(row) for row in board]
-                ans.append(temp)
+        def back_tracking(k):
+            if k == n:
+                temp = [''.join(i) for i in board]
+                x = deepcopy(temp)
+                ans.append(x)
                 return
-
-            for c in range(n):
-                if c in col or (c + r) in pos_digo or (c - r) in nag_digo:
+            
+            for i in range(n):
+                if i in col or i + k in pos_digo or i - k in neg_digo:
                     continue
+                
+                board[k][i] = 'Q'
+                col.add(i)
+                pos_digo.add(i + k)
+                neg_digo.add(i - k)
 
-                col.append(c)
-                pos_digo.append(c + r)
-                nag_digo.append(c - r)
-                board[r][c] = "Q"
+                back_tracking(k + 1)
 
-                back_tracking(r + 1)
-
-                col.remove(c)
-                pos_digo.remove(c + r)
-                nag_digo.remove(c - r)
-                board[r][c] = "."
+                board[k][i] = '.'
+                col.remove(i)
+                pos_digo.remove(i + k)
+                neg_digo.remove(i - k)
 
         back_tracking(0)
         return ans
